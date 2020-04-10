@@ -50,9 +50,9 @@ function Home({ weatherData, fetchWeather}) {
                             {
                                 weatherData.temp_type === "C" ?
                                 (
-                                    weatherData.weather.main[key] - 273
+                                    Math.round((weatherData.weather.main[key] - 273) * 10) / 10
                                 ) : (
-                                    weatherData.weather.main[key] * 9/5 - 459.67
+                                    Math.round((weatherData.weather.main[key] * 9/5 - 459.67) * 10) / 10
                                 )
                             }
                             </td>
