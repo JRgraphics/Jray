@@ -25,7 +25,7 @@ export const fetchWeather = () => {
     return (dispatch) => {
         dispatch(fetchWeatherRequest);
         // TODO: Change to take argument
-        axios.get('http://api.openweathermap.org/data/2.5/weather?q=Helsinki&APPID=ca4681885056a937b5ff8c7900747249')
+        axios.get('http://api.openweathermap.org/data/2.5/forecast?q=helsinki&appid=ca4681885056a937b5ff8c7900747249')
         .then(response => {
             const weather = response.data;
             dispatch(fetchWeatherSuccess(weather));

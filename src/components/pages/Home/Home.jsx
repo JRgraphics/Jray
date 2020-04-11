@@ -1,13 +1,24 @@
 import React, { useEffect } from 'react';
 import { connect, useDispatch } from 'react-redux';
-import { fetchWeather, changeTemperature } from '../../../redux';
+import { fetchWeather } from '../../../redux';
 import './Home.sass';
+
+function dateToString(date) {
+    const d = new Date(date * 1000);
+    const date_str = d.getDate() + '.' + (d.getMonth() + 1 ) + '.' + d.getFullYear();
+    return date_str;
+}
+
+function timeToString(date) {
+    const d = new Date(date * 1000);
+    const time_str = d.getHours() + ':' + ('0'+d.getMinutes()).slice(-2);
+    return time_str;
+}
 
 function Home({ weatherData, fetchWeather}) {
     useEffect(() => {
         fetchWeather()
     }, []);
-    const dispatch = useDispatch();
     return weatherData.loading ? (
         <h2 className="lds-dual-ring"></h2>
     ) : weatherData.error ? (
@@ -15,18 +26,16 @@ function Home({ weatherData, fetchWeather}) {
     ) : (
         <div className="col-8 mx-auto">
             <h2 className="mx-auto text-center">Weather</h2>
-            
-            <div className="weather-toggle">
-                <button onClick={() => dispatch(changeTemperature("C"))} className={"btn " + (weatherData.temp_type === "C" ? "btn-primary" : 'btn-outline-primary')}>°C</button>
-                <button onClick={() => dispatch(changeTemperature("F"))} className={"btn " + (weatherData.temp_type === "F" ? "btn-primary" : 'btn-outline-primary')}>°F</button>
-            </div>
 
             <div className="mx-auto text-center">
                 {
                     weatherData &&
                     weatherData.weather &&
-                    weatherData.weather.weather &&
-                    <p>{weatherData.weather.weather[0].main}</p>          
+                    weatherData.weather.list &&
+                    <div>
+                        <p>{dateToString(weatherData.weather.list[0].dt)}</p>
+                        <p>{timeToString(weatherData.weather.list[0].dt)}</p>  
+                    </div>           
                 }
             </div>
             <table className="mx-auto px-0 text-center col-6">
@@ -40,8 +49,8 @@ function Home({ weatherData, fetchWeather}) {
                 {
                 weatherData &&
                 weatherData.weather &&
-                weatherData.weather.main &&
-                Object.keys(weatherData.weather.main).map(key => (
+                weatherData.weather.list &&
+                Object.keys(weatherData.weather.list[0].main).map(key => (
                     key === 'temp' || key === 'feels_like' || key === 'temp_min' || key === 'temp_max' ?
                     (
                         <tr>
@@ -50,9 +59,9 @@ function Home({ weatherData, fetchWeather}) {
                             {
                                 weatherData.temp_type === "C" ?
                                 (
-                                    Math.round((weatherData.weather.main[key] - 273) * 10) / 10
+                                    Math.round((weatherData.weather.list[0].main[key] - 273) * 10) / 10
                                 ) : (
-                                    Math.round((weatherData.weather.main[key] * 9/5 - 459.67) * 10) / 10
+                                    Math.round((weatherData.weather.list[0].main[key] * 9/5 - 459.67) * 10) / 10
                                 )
                             }
                             </td>
@@ -63,7 +72,7 @@ function Home({ weatherData, fetchWeather}) {
                         <td>{key}</td>
                         <td id={key} key={key} className="">
                         {
-                        weatherData.weather.main[key]
+                        weatherData.weather.list[0].main[key]
                         }
                         </td>
                     </tr>

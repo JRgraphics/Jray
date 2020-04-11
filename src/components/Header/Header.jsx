@@ -1,10 +1,14 @@
 import React from 'react';
 import './Header.sass';
+import WeatherToggle from '../WeatherToggle/WeatherToggle';
+
+import Jray_logo from '../../assets/images/Jray_logo.png';
 
 function Header() {
     return (
         <header className="header">
-            <h2 className="header__name float-left my-0 mx-3"><span className="align-middle">Jray</span></h2>
+            <img className="header__logo" src={Jray_logo} alt={"logo"} />
+            <WeatherToggle />
         </header>
     )
 }
