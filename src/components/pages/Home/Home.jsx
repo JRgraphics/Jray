@@ -2,6 +2,8 @@ import React, { useEffect } from 'react';
 import { connect, useDispatch } from 'react-redux';
 import { fetchWeather } from '../../../redux';
 import './Home.sass';
+import ForecastCarousel from '../../ForecastCarousel/ForecastCarousel';
+import CurrentForecast from '../../CurrentForecast/CurrentForecast';
 
 function dateToString(date) {
     const d = new Date(date * 1000);
@@ -24,7 +26,7 @@ function Home({ weatherData, fetchWeather}) {
     ) : weatherData.error ? (
         <h2>{weatherData.error}</h2>
     ) : (
-        <div className="col-8 mx-auto">
+        <div className="mx-auto">
             <h2 className="mx-auto text-center">Weather</h2>
 
             <div className="mx-auto text-center">
@@ -38,50 +40,14 @@ function Home({ weatherData, fetchWeather}) {
                     </div>           
                 }
             </div>
-            <table className="mx-auto px-0 text-center col-6">
-                <tbody>
-
-                
-                <tr>
-                    <th>Key</th>
-                    <th>Value</th>
-                </tr>
-                {
-                weatherData &&
-                weatherData.weather &&
-                weatherData.weather.list &&
-                Object.keys(weatherData.weather.list[0].main).map(key => (
-                    key === 'temp' || key === 'feels_like' || key === 'temp_min' || key === 'temp_max' ?
-                    (
-                        <tr>
-                            <td>{key}</td>
-                            <td id={key} key={key} className="">
-                            {
-                                weatherData.temp_type === "C" ?
-                                (
-                                    Math.round((weatherData.weather.list[0].main[key] - 273) * 10) / 10
-                                ) : (
-                                    Math.round((weatherData.weather.list[0].main[key] * 9/5 - 459.67) * 10) / 10
-                                )
-                            }
-                            </td>
-                        </tr>
-                    )
-                : (
-                    <tr>
-                        <td>{key}</td>
-                        <td id={key} key={key} className="">
-                        {
-                        weatherData.weather.list[0].main[key]
-                        }
-                        </td>
-                    </tr>
-                )
-                )
-                )
-                }
-                </tbody>
-            </table>
+            <div className="row col-12 m-0 p-0">
+                <div className="col-6 m-0 p-0">
+                <CurrentForecast />
+                </div>
+                <div className="col-6 m-0 p-0">
+                <ForecastCarousel />
+                </div>
+            </div>
         </div>
     )
 }
