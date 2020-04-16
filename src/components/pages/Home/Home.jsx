@@ -4,6 +4,7 @@ import { fetchWeather } from '../../../redux';
 import './Home.sass';
 import ForecastCarousel from '../../ForecastCarousel/ForecastCarousel';
 import CurrentForecast from '../../CurrentForecast/CurrentForecast';
+import LocationSearch from '../../LocationSearch/LocationSearch';
 
 function dateToString(date) {
     const d = new Date(date * 1000);
@@ -21,25 +22,10 @@ function Home({ weatherData, fetchWeather}) {
     useEffect(() => {
         fetchWeather()
     }, []);
-    return weatherData.loading ? (
-        <h2 className="lds-dual-ring"></h2>
-    ) : weatherData.error ? (
-        <h2>{weatherData.error}</h2>
-    ) : (
+    return (
         <div className="mx-auto">
             <h2 className="mx-auto text-center">Weather</h2>
-
-            <div className="mx-auto text-center">
-                {
-                    weatherData &&
-                    weatherData.weather &&
-                    weatherData.weather.list &&
-                    <div>
-                        <p>{dateToString(weatherData.weather.list[0].dt)}</p>
-                        <p>{timeToString(weatherData.weather.list[0].dt)}</p>  
-                    </div>           
-                }
-            </div>
+            <LocationSearch />
             <div className="row col-12 m-0 p-0">
                 <div className="col-6 m-0 p-0">
                 <CurrentForecast />

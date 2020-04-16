@@ -7,7 +7,11 @@ function CurrentForecast({ weatherData, fetchWeather}) {
     useEffect(() => {
         fetchWeather()
     }, []);
-    return (
+    return weatherData.loading ? (
+        <h2 className="lds-dual-ring"></h2>
+    ) : weatherData.error ? (
+        <h2>{weatherData.error}</h2>
+    ) : (
         <div className="current-forecast">
             <div>{Date(1586968225 * 1000)}</div>
             <table className="mx-auto px-0 text-center col-6">
