@@ -4,34 +4,38 @@ import { fetchWeather } from '../../redux';
 import Carousel from 'react-multi-carousel';
 import 'react-multi-carousel/lib/styles.css';
 import './ForecastCarousel.sass'
+import ForecastCarouselItem from './ForecastCarouselItem';
 
-function ForecastCarousel({ weatherData, fetchWeather}) {
-  useEffect(() => {
-    fetchWeather()
-  }, []);
+function ForecastCarousel({ weatherData }) {
+  
   const responsive = {
       desktop: {
         breakpoint: { max: 3000, min: 1024 },
-        items: 3,
+        items: 6,
         slidesToSlide: 1 // optional, default to 1.
       },
       tablet: {
         breakpoint: { max: 1024, min: 464 },
-        items: 2,
+        items: 4,
         slidesToSlide: 1 // optional, default to 1.
       },
       mobile: {
         breakpoint: { max: 464, min: 0 },
-        items: 1,
+        items: 3,
         slidesToSlide: 1 // optional, default to 1.
       }
     };
     return weatherData.loading ? (
-      <h2 className="lds-dual-ring"></h2>
+      <h2 className="lds-dual-ring  centered"></h2>
     ) : weatherData.error ? (
         <h2>{weatherData.error}</h2>
     ) : (
-      <Carousel
+      <div className="forecast-carousel">
+        {
+          weatherData &&
+          weatherData.weather_forecast &&
+          weatherData.weather_forecast.list &&
+          <Carousel
       className="carousel"
       swipeable={true}
       draggable={true}
@@ -49,11 +53,14 @@ function ForecastCarousel({ weatherData, fetchWeather}) {
       dotListClass="custom-dot-list-style"
       itemClass="carousel-item-padding-40-px"
       >
-          <div className="carousel__item user-select--none">Item 1</div>
-          <div className="carousel__item user-select--none">Item 2</div>
-          <div className="carousel__item user-select--none">Item 3</div>
-          <div className="carousel__item user-select--none">Item 4</div>
+        {
+          weatherData.weather_forecast.list.map((item) => (
+            <ForecastCarouselItem key={item.dt} time={item.dt} />
+          ))
+        }
       </Carousel>
+        }
+      </div>
   )
 }
 
@@ -65,7 +72,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-      fetchWeather: () => dispatch(fetchWeather())
+      fetchWeather: (city) => dispatch(fetchWeather(city))
   }
 }
 

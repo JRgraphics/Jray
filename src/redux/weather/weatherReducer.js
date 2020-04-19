@@ -1,8 +1,9 @@
-import { FETCH_WEATHER_REQUEST, FETCH_WEATHER_SUCCESS, FETCH_WEATHER_ERROR, CHANGE_TEMPERATURE } from "./weatherTypes"
+import { FETCH_WEATHER_REQUEST, FETCH_CURRENT_WEATHER_SUCCESS, FETCH_WEATHER_FORECAST_SUCCESS, FETCH_WEATHER_ERROR, CHANGE_TEMPERATURE } from "./weatherTypes"
 
 const initialState = {
     loading: false,
-    weather: [],
+    current_weather: {},
+    weather_forecast: [],
     error: '',
     temp_type: 'C'
 }
@@ -12,16 +13,23 @@ const reducer = (state = initialState, action) => {
         case FETCH_WEATHER_REQUEST:
             return {
                 ...state,
-                loading: true
+                loading: true,
+                error: ''
             }
         
-        case FETCH_WEATHER_SUCCESS:
+        case FETCH_CURRENT_WEATHER_SUCCESS:
             return {
                 ...state,
                 loading: false,
-                weather: action.payload
+                current_weather: action.payload
             }
         
+        case FETCH_WEATHER_FORECAST_SUCCESS:
+            return {
+                ...state,
+                loading: false,
+                weather_forecast: action.payload
+            }
         case FETCH_WEATHER_ERROR:
             return {
                 ...state,

@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { FETCH_WEATHER_REQUEST, FETCH_WEATHER_SUCCESS, FETCH_WEATHER_ERROR, CHANGE_TEMPERATURE } from "./weatherTypes";
+import { FETCH_WEATHER_REQUEST, FETCH_CURRENT_WEATHER_SUCCESS, FETCH_WEATHER_FORECAST_SUCCESS, FETCH_WEATHER_ERROR, CHANGE_TEMPERATURE } from "./weatherTypes";
 
 export const fetchWeatherRequest = () => {
     return {
@@ -7,9 +7,16 @@ export const fetchWeatherRequest = () => {
     }
 }
 
-const fetchWeatherSuccess = weather => {
+const fetchCurrentWeatherSuccess = weather => {
     return {
-        type: FETCH_WEATHER_SUCCESS,
+        type: FETCH_CURRENT_WEATHER_SUCCESS,
+        payload: weather
+    }
+}
+
+const fetchWeatherForecastSuccess = weather => {
+    return {
+        type: FETCH_WEATHER_FORECAST_SUCCESS,
         payload: weather
     }
 }
@@ -21,14 +28,24 @@ const fetchWeatherError = error => {
     }
 }
 
-export const fetchWeather = () => {
+export const fetchWeather = city => {
     return (dispatch) => {
-        dispatch(fetchWeatherRequest);
-        // TODO: Change to take argument
-        axios.get('http://api.openweathermap.org/data/2.5/forecast?q=helsinki&appid=ca4681885056a937b5ff8c7900747249')
+        dispatch(fetchWeatherRequest());
+        // Fetching the current weatherdata from the API
+        axios.get('http://api.openweathermap.org/data/2.5/weather?' + city + '&APPID=ca4681885056a937b5ff8c7900747249')
         .then(response => {
-            const weather = response.data;
-            dispatch(fetchWeatherSuccess(weather));
+            // Fetching the 5 day forecast based on the parameter and success of the current weather request
+            const current_weather = response.data
+            axios.get('http://api.openweathermap.org/data/2.5/forecast?' + city +'&appid=ca4681885056a937b5ff8c7900747249')
+            .then(response => {
+                const weather_forecast = response.data;
+                dispatch(fetchCurrentWeatherSuccess(current_weather));
+                dispatch(fetchWeatherForecastSuccess(weather_forecast));
+            })
+            .catch(error => {
+                const errorMsg = error.message;
+                dispatch(fetchWeatherError(errorMsg));
+            })
         })
         .catch(error => {
             const errorMsg = error.message;

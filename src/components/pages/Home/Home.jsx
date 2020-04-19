@@ -1,27 +1,12 @@
 import React, { useEffect } from 'react';
 import { connect, useDispatch } from 'react-redux';
-import { fetchWeather } from '../../../redux';
 import './Home.sass';
 import ForecastCarousel from '../../ForecastCarousel/ForecastCarousel';
 import CurrentForecast from '../../CurrentForecast/CurrentForecast';
 import LocationSearch from '../../LocationSearch/LocationSearch';
-
-function dateToString(date) {
-    const d = new Date(date * 1000);
-    const date_str = d.getDate() + '.' + (d.getMonth() + 1 ) + '.' + d.getFullYear();
-    return date_str;
-}
-
-function timeToString(date) {
-    const d = new Date(date * 1000);
-    const time_str = d.getHours() + ':' + ('0'+d.getMinutes()).slice(-2);
-    return time_str;
-}
+import { geolocated } from "react-geolocated";
 
 function Home({ weatherData, fetchWeather}) {
-    useEffect(() => {
-        fetchWeather()
-    }, []);
     return (
         <div className="mx-auto">
             <h2 className="mx-auto text-center">Weather</h2>
@@ -46,7 +31,6 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
     return {
-        fetchWeather: () => dispatch(fetchWeather())
     }
 }
 
