@@ -1,11 +1,13 @@
-import { FETCH_WEATHER_REQUEST, FETCH_CURRENT_WEATHER_SUCCESS, FETCH_WEATHER_FORECAST_SUCCESS, FETCH_WEATHER_ERROR, CHANGE_TEMPERATURE } from "./weatherTypes"
+import { FETCH_WEATHER_REQUEST, FETCH_CURRENT_WEATHER_SUCCESS, FETCH_WEATHER_FORECAST_SUCCESS, FETCH_WEATHER_ERROR, CHANGE_TEMPERATURE, SET_SEARCH_FOCUS, SET_SEARCH_TERM } from "./weatherTypes"
 
 const initialState = {
     loading: false,
     current_weather: {},
     weather_forecast: [],
     error: '',
-    temp_type: 'C'
+    temp_type: 'C',
+    search_focus: false,
+    search_term: 'Helsinki'
 }
 
 const reducer = (state = initialState, action) => {
@@ -42,6 +44,18 @@ const reducer = (state = initialState, action) => {
             return {
                 ...state,
                 temp_type: action.payload
+            }
+
+        case SET_SEARCH_FOCUS:
+            return {
+                ...state,
+                search_focus: action.payload
+            }
+
+        case SET_SEARCH_TERM:
+            return {
+                ...state,
+                search_term: action.payload
             }
 
         default: return state;
