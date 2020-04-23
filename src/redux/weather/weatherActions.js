@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { FETCH_WEATHER_REQUEST, FETCH_CURRENT_WEATHER_SUCCESS, FETCH_WEATHER_FORECAST_SUCCESS, FETCH_WEATHER_ERROR, CHANGE_TEMPERATURE, SET_SEARCH_FOCUS, SET_SEARCH_TERM } from "./weatherTypes";
+import { FETCH_WEATHER_REQUEST, FETCH_CURRENT_WEATHER_SUCCESS, FETCH_WEATHER_FORECAST_SUCCESS, FETCH_WEATHER_ERROR, CHANGE_TEMPERATURE, SET_SEARCH_FOCUS, SET_SEARCH_TERM, SET_SEARCH_SELECTION } from "./weatherTypes";
 
 export const fetchWeatherRequest = () => {
     return {
@@ -72,6 +72,13 @@ export const setSearchFocus = value => {
 export const setSearchTerm = value => {
     return {
         type: SET_SEARCH_TERM,
+        payload: value
+    }
+}
+
+export const setSearchSelection = value => {
+    return {
+        type: SET_SEARCH_SELECTION,
         payload: value
     }
 }
