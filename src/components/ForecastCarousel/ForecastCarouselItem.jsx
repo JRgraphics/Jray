@@ -1,4 +1,6 @@
-import React from 'react'
+import React from 'react';
+import { connect } from 'react-redux';
+
 
 function dateToString(date) {
     const d = new Date(date * 1000);
@@ -14,15 +16,37 @@ function timeToString(date) {
 
 function ForecastCarouselItem(props) {
     return (
-        <li key={props.key} className="carousel__item user-select--none">
+        <div key={props.time} className="carousel__item user-select--none">
             <div>
                 {dateToString(props.time)}
             </div>
             <div>
                 {timeToString(props.time)}
             </div>
-        </li>
+            <div>
+            {
+                props.weatherData.temp_type === "C" ?
+                (
+                    Math.round((props.main.temp - 273) * 10) / 10
+                ) : (
+                    Math.round((props.main.temp * 9/5 - 459.67) * 10) / 10
+                )
+            }
+            </div>
+            <div>{props.weather[0].description}</div>
+        </div>
     )
 }
 
-export default ForecastCarouselItem
+const mapStateToProps = state => {
+    return {
+        weatherData: state.weather
+    }
+  }
+  
+  const mapDispatchToProps = dispatch => {
+    return {
+    }
+  }
+  
+  export default connect(mapStateToProps, mapDispatchToProps)(ForecastCarouselItem);

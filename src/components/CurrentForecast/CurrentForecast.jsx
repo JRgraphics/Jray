@@ -29,7 +29,7 @@ function CurrentForecast({ weatherData }) {
                     key === 'temp' || key === 'feels_like' || key === 'temp_min' || key === 'temp_max' ?
                     (
                         <tr>
-                            <td>{key}</td>
+                            <td key={'currentWeather_'+key}>{key}</td>
                             <td id={key} key={key} className="">
                             {
                                 weatherData.temp_type === "C" ?

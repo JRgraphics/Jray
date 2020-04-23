@@ -8,8 +8,8 @@ function WeatherToggle({weatherData}) {
     const dispatch = useDispatch();
     return (
         <div className="weather-toggle">
-            <button onClick={() => dispatch(changeTemperature("C"))} className={"btn " + (weatherData.temp_type === "C" ? "btn-primary" : 'btn-outline-primary')}>°C</button>
-            <button onClick={() => dispatch(changeTemperature("F"))} className={"btn " + (weatherData.temp_type === "F" ? "btn-primary" : 'btn-outline-primary')}>°F</button>
+            <button onClick={() => dispatch(changeTemperature("C"))} className={"btn " + (weatherData.temp_type === "C" ? "btn-light" : 'btn-outline-light')}>°C</button>
+            <button onClick={() => dispatch(changeTemperature("F"))} className={"btn " + (weatherData.temp_type === "F" ? "btn-light" : 'btn-outline-light')}>°F</button>
         </div>
     )
 }

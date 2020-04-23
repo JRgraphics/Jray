@@ -1,20 +1,24 @@
 import React from 'react';
 import { connect, useDispatch } from 'react-redux';
-import { fetchWeather } from '../../redux';
+import { fetchWeather, setSearchFocus } from '../../redux';
 
 import Cities from  './Cities.json';
 
-function SearchList({weatherData, fetchWeather}) {
+function SearchList({weatherData, fetchWeather, setSearchFocus}) {
     const dispatch = useDispatch();
     return (
-        <div>
-            <ul>
+        weatherData &&
+        weatherData.search_focus &&
+        weatherData.search_term.length > 2 &&
+        <div className="search-list col-12 col-sm-10 col-md-4">
+            <ul className="p-1 m-0" style={{listStyleType: "none"}}>
                 {
-                    weatherData &&
-                    weatherData.search_focus &&
-                    weatherData.search_term.length > 2 &&
                     Cities.filter(city => city.name.toLowerCase().includes(weatherData.search_term.toLowerCase())).map((value, index) =>
-                    <li key={value.geonameid} className="search-list__result" onClick={() => fetchWeather(value.name)}>{value.name}</li>
+                    <li key={value.geonameid} className="search-list__result" 
+                    onClick={() => {
+                        fetchWeather(value.name);
+                        setSearchFocus(false);
+                    }}>{value.name}</li>
                     )
                 }
             </ul>
@@ -30,7 +34,8 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
     return {
-        fetchWeather: (city) => dispatch(fetchWeather(city))
+        fetchWeather: (city) => dispatch(fetchWeather(city)),
+        setSearchFocus: (status) => dispatch(setSearchFocus(status))
     }
 }
 

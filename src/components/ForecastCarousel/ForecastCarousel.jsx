@@ -55,7 +55,7 @@ function ForecastCarousel({ weatherData }) {
       >
         {
           weatherData.weather_forecast.list.map((item) => (
-            <ForecastCarouselItem key={item.dt} time={item.dt} />
+            <ForecastCarouselItem time={item.dt} main={item.main} weather={item.weather} />
           ))
         }
       </Carousel>
