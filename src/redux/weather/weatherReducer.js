@@ -8,7 +8,7 @@ const initialState = {
     temp_type: 'C',
     search_focus: false,
     search_term: 'Helsinki',
-    search_selection: ''
+    search_selection: 'Helsinki'
 }
 
 const reducer = (state = initialState, action) => {

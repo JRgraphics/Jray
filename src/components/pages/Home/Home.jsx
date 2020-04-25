@@ -6,19 +6,17 @@ import CurrentForecast from '../../CurrentForecast/CurrentForecast';
 import LocationSearch from '../../LocationSearch/LocationSearch';
 import { geolocated } from "react-geolocated";
 
-function Home({ weatherData, fetchWeather}) {
+function Home() {
     return (
         <div className="mx-auto">
-            <h2 className="mx-auto text-center">Weather</h2>
             <LocationSearch />
-            <div className="row col-12 m-0 p-0">
-                <div className="col-6 m-0 p-0">
+            <div className="col-6 mx-auto">
                 <CurrentForecast />
-                </div>
-                <div className="col-6 m-0 p-0">
-                <ForecastCarousel />
-                </div>
             </div>
+            <div className="col-12 my-3">
+                <ForecastCarousel />
+            </div>
+
         </div>
     )
 }

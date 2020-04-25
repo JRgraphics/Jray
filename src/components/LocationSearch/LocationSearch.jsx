@@ -2,6 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { fetchWeather, setSearchFocus, setSearchTerm, setSearchSelection } from '../../redux';
 import './LocationSearch.sass';
+import Cities from  './Cities.json';
 
 import SearchList from './SearchList';
 
@@ -20,6 +21,22 @@ class LocationSearch extends React.Component {
         console.log(e.target.classList[0]);
     }
 
+    handleOnChange = (e) =>  {
+        this.props.setSearchTerm(e.target.value);
+        if ( e.target.value.length > 2 ) {
+            const selection = Cities.find(city => (city.name.toLowerCase().includes(e.target.value.toLowerCase())) && city.name.toLowerCase().startsWith(e.target.value.toLowerCase().charAt(0)));
+            this.props.setSearchSelection(selection.name)
+        }
+    }
+
+    handleKeyUp = (e) => {
+        if ( e.keyCode === 13 ) {
+            this.props.fetchWeather(this.props.weatherData.search_selection);
+            e.target.blur();
+            this.props.setSearchFocus(false);
+        }
+    }
+
     render() {
     return (
         <div className="location-search col-12 col-sm-10 col-md-4 p-0 my-3 mx-auto text-center">
@@ -33,15 +50,9 @@ class LocationSearch extends React.Component {
                 onBlur={() => {
                     this.underline_el.current.style.width = '0';
                 }} 
-                onChange={(e) => {
-                    if (document.getElementsByClassName('search-list__result') !== undefined) {
-                        if (document.getElementsByClassName('search-list__result')[0] !== undefined) {
-                            this.props.setSearchSelection(document.getElementsByClassName('search-list__result')[0].id);
-                        }
-                    }
-                    this.props.setSearchTerm(e.target.value);
-                }}
+                onChange={(e) => this.handleOnChange(e)}
                 placeholder="Search.." value={this.props.weatherData.search_term}
+                onKeyUp={(e) => this.handleKeyUp(e)}
                 />
                 <div ref={this.underline_el} className="searchbox__underline" style={{width: '0'}}></div>
             </div>
