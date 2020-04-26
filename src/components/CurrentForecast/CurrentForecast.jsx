@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import './CurrentForecast.sass';
+import WeatherConverter from '../WeatherConverter/WeatherConverter';
 
 const getTime = (date) => {
     const date_val = new Date(date * 1000);
@@ -22,74 +23,66 @@ function CurrentForecast({ weatherData }) {
         
             <div className="row col-12 mx-auto px-0 text-center">
                 <div className="col-6 text-right">
-                    <h1 className="m-0">
-                    {
-                        weatherData.temp_type === "C" ?
-                        (
-                            Math.round((weatherData.current_weather.main['temp'] - 273) * 10) / 10
-                        ) : (
-                            Math.round((weatherData.current_weather.main['temp'] * 9/5 - 459.67) * 10) / 10
-                        )
-                    }
-                    <span>{weatherData.temp_type === "C" ? '°C' : '°F'}</span>
-                    </h1>
-                    <h5 className="m-0">24.4.</h5>
-                    <h5 className="m-0">2:30pm</h5>
+                    <div className="height--50">
+                        <h1 className="main-temperature m-0">
+                            <WeatherConverter temperature={weatherData.current_weather.main['temp']} />
+                        </h1>
+                    </div>
+                    <div className="height--50">
+                        <div className="current-forecast__time-container float-right pb-1">
+                            <h6 className="m-0">24.4.</h6>
+                            <h6 className="m-0">2:30pm</h6>
+                        </div>
+                        <i class="wi wi-night-rain wi-fw"></i>
+                    </div>
                 </div>
                 <div className="col-6">
-                    <table>
+                    <table className="weather-info-table">
                         <tbody>
                             <tr>
                                 <td className="text-left">
-                                    <h5 className="m-0">Feels like</h5>
+                                    <h6 className="m-0">Feels like</h6>
                                 </td>
                                 <td className="text-right">
-                                    <h5 className="m-0">
-                                {
-                                    weatherData.temp_type === "C" ?
-                                    (
-                                        Math.round((weatherData.current_weather.main['feels_like'] - 273) * 10) / 10
-                                    ) : (
-                                        Math.round((weatherData.current_weather.main['feels_like'] * 9/5 - 459.67) * 10) / 10
-                                    )
-                                }<span>{weatherData.temp_type === "C" ? '°C' : '°F'}</span>
-                                </h5>
+                                    <h6 className="m-0">
+                                        <WeatherConverter temperature={weatherData.current_weather.main['feels_like']} />
+                                    </h6>
                                 </td>
                             </tr>
                             <tr>
                                 <td className="text-left">
-                                    <h5 className="m-0">Wind</h5>
+                                    <h6 className="m-0">Wind</h6>
                                 </td>
                                 <td className="text-right">
-                                    <h5 className="m-0">{weatherData.current_weather.wind['speed']}</h5>
+                                    <h6 className="m-0">{weatherData.current_weather.wind['speed']}</h6>
                                 </td>
                             </tr>
                             <tr>
                                 <td className="text-left">
-                                    <h5 className="m-0">Humidity</h5>
+                                    <h6 className="m-0">Humidity</h6>
                                 </td>
                                 <td className="text-right">
-                                    <h5 className="m-0">{weatherData.current_weather.main['humidity']}<span>%</span></h5>
+                                    <h6 className="m-0">{weatherData.current_weather.main['humidity']}<span>%</span></h6>
                                 </td>
                             </tr>
                             <tr>
                                 <td className="text-left">
-                                    <h5 className="m-0">Sunrise</h5>
+                                    <h6 className="m-0">Sunrise</h6>
                                 </td>
                                 <td className="text-right">
-                                    <h5 className="m-0">{
+                                    <h6 className="m-0">{
                                     getTime(weatherData.current_weather.sys['sunrise'])
-                                    }</h5>
+                                    }</h6>
                                 </td>
                             </tr>
                             <tr>
                                 <td className="text-left">
-                                    <h5 className="m-0">Sunset</h5>
+                                    <h6 className="m-0">Sunset</h6>
                                 </td>
                                 <td className="text-right">
-                                    <h5 className="m-0">{
+                                    <h6 className="m-0">{
                                     getTime(weatherData.current_weather.sys['sunset'])
-                                    }</h5>
+                                    }</h6>
                                 </td>
                             </tr>
                         </tbody>

@@ -1,16 +1,26 @@
-import React, { useEffect } from 'react';
-import { connect, useDispatch } from 'react-redux';
+import React from 'react';
+import { connect } from 'react-redux';
+import { fetchWeather } from '../../../redux';
 import './Home.sass';
 import ForecastCarousel from '../../ForecastCarousel/ForecastCarousel';
 import CurrentForecast from '../../CurrentForecast/CurrentForecast';
 import LocationSearch from '../../LocationSearch/LocationSearch';
 import { geolocated } from "react-geolocated";
 
-function Home() {
+class Home extends React.Component {
+    constructor(props) {
+        super(props);
+    }
+
+    componentDidMount() {
+        this.props.fetchWeather(this.props.weatherData.search_selection);
+    }
+
+    render() {
     return (
         <div className="mx-auto">
             <LocationSearch />
-            <div className="col-6 mx-auto">
+            <div className="col-12 mx-auto">
                 <CurrentForecast />
             </div>
             <div className="col-12 my-3">
@@ -19,6 +29,7 @@ function Home() {
 
         </div>
     )
+}
 }
 
 const mapStateToProps = state => {
@@ -29,6 +40,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
     return {
+        fetchWeather: (city) => dispatch(fetchWeather(city))
     }
 }
 

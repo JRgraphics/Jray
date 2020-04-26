@@ -25,7 +25,9 @@ class LocationSearch extends React.Component {
         this.props.setSearchTerm(e.target.value);
         if ( e.target.value.length > 2 ) {
             const selection = Cities.find(city => (city.name.toLowerCase().includes(e.target.value.toLowerCase())) && city.name.toLowerCase().startsWith(e.target.value.toLowerCase().charAt(0)));
-            this.props.setSearchSelection(selection.name)
+            if ( selection ) {
+                this.props.setSearchSelection(selection.name)
+            }
         }
     }
 
@@ -41,7 +43,7 @@ class LocationSearch extends React.Component {
     return (
         <div className="location-search col-12 col-sm-10 col-md-4 p-0 my-3 mx-auto text-center">
             <div>
-                <input ref={this.search_el} className="location-search__searchbox" type="text"
+                <input ref={this.search_el} className="location-search__searchbox pl-4" type="text"
                 onFocus={() => {
                     this.underline_el.current.style.width = '100%';
                     this.props.setSearchFocus(true);
