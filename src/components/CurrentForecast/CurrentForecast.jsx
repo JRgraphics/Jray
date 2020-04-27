@@ -2,9 +2,9 @@ import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import './CurrentForecast.sass';
 import WeatherConverter from '../WeatherConverter/WeatherConverter';
-import WeatherIconMap from '../WeatherIconMap.json';
-import { dateToString, timeToString } from '../DateFormatFunctions';
+import { timeToString } from '../DateFormatFunctions';
 import WeatherInfoTable from './WeatherInfoTable';
+import WeatherThumbnail from '../WeatherThumbnail/WeatherThumbnail';
 
 
 function CurrentForecast({ weatherData }) {
@@ -21,21 +21,13 @@ function CurrentForecast({ weatherData }) {
             weatherData.current_weather.main &&
             <div className="row col-12 mx-auto px-0 text-center">
                 <div className="col-6 text-right">
-                    <div>
-                        <div className="height--50">
-                            <h1 className="main-temperature m-0">
-                                <WeatherConverter temperature={weatherData.current_weather.main['temp']} />
-                            </h1>
-                        </div>
-                        <div className="height--50">
-                            <div className="time-container float-right pb-1">
-                                <h6 className="m-0 pr-1">{dateToString(weatherData.current_weather.dt)}</h6>
-                                <h6 className="m-0 pr-1">{timeToString(weatherData.current_weather.dt)}</h6>
-                            </div>
-                            <i class={"wi " + (WeatherIconMap[(weatherData.current_weather.weather[0].icon)]) + " wi-fw"}></i>
-                            <h6>{weatherData.current_weather.weather[0].description}</h6>
-                        </div>
-                    </div>
+                    <WeatherThumbnail
+                        parent={'current'}
+                        temperature={weatherData.current_weather.main['temp']}
+                        time={weatherData.current_weather.dt}
+                        icon={weatherData.current_weather.weather[0].icon}
+                        description={weatherData.current_weather.weather[0].description}
+                    />
                 </div>
                 <div className="col-6">
                     <WeatherInfoTable object={
@@ -46,7 +38,8 @@ function CurrentForecast({ weatherData }) {
                             },
                             {
                                 "label": "Wind",
-                                "value": weatherData.current_weather.wind['speed']
+                                "value": weatherData.current_weather.wind['speed'],
+                                "degree": weatherData.current_weather.wind['deg']
                             },
                             {
                                 "label": "Humidity",

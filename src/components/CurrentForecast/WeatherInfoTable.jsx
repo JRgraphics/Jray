@@ -1,13 +1,24 @@
 import React from 'react';
+import wind_degree from '../../assets/images/wind_degree.png';
 
 function WeatherInfoTableItem(props) {
     return (
         <tr>
             <td className="text-left">
-                <h6 className="m-0">{props.label}</h6>
+                <h6 className="mb-1">{props.item.label}</h6>
             </td>
             <td className="text-right">
-                <h6 className="m-0">{props.value}</h6>
+                <h6 className="mb-1">{props.item.value}
+                {
+                    props.item.label === "Wind" &&
+                    props.item.degree &&
+                    <span className="ml-1">
+                        <img className="pb-1" src={wind_degree} alt={"arrow"} 
+                        style={{height: "1rem", transform: "rotate(" + props.item.degree + "deg)"}} 
+                        />
+                        </span>
+                }
+                </h6>
             </td>
         </tr>
     )
@@ -19,7 +30,7 @@ function WeatherInfoTable(props) {
             <tbody>
                 {
                     props.object.map(item => (
-                        <WeatherInfoTableItem label={item.label} value={item.value} />
+                        <WeatherInfoTableItem item={item} />
                     ))
                 }
             </tbody>
