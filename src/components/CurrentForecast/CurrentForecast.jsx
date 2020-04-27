@@ -6,24 +6,26 @@ import { timeToString } from '../DateFormatFunctions'
 import WeatherInfoTable from './WeatherInfoTable'
 import WeatherThumbnail from '../WeatherThumbnail/WeatherThumbnail'
 
-function CurrentForecast({ weatherData }) {
-  return weatherData.loading ? (
+function CurrentForecast(props) {
+  return props.weatherData.loading ? (
     <h2 className="lds-dual-ring centered"></h2>
-  ) : weatherData.error ? (
-    <h2>{weatherData.error}</h2>
+  ) : props.weatherData.error ? (
+    <h2>{props.weatherData.error}</h2>
   ) : (
     <div className="current-forecast">
-      {weatherData &&
-        weatherData.current_weather &&
-        weatherData.current_weather.main && (
+      {props.weatherData &&
+        props.weatherData.current_weather &&
+        props.weatherData.current_weather.main && (
           <div className="row col-12 mx-auto px-0 text-center">
             <div className="col-6 text-right">
               <WeatherThumbnail
                 parent={'current'}
-                temperature={weatherData.current_weather.main['temp']}
-                time={weatherData.current_weather.dt}
-                icon={weatherData.current_weather.weather[0].icon}
-                description={weatherData.current_weather.weather[0].description}
+                temperature={props.weatherData.current_weather.main['temp']}
+                time={props.weatherData.current_weather.dt}
+                icon={props.weatherData.current_weather.weather[0].icon}
+                description={
+                  props.weatherData.current_weather.weather[0].description
+                }
               />
             </div>
             <div className="col-6">
@@ -34,30 +36,31 @@ function CurrentForecast({ weatherData }) {
                     value: (
                       <WeatherConverter
                         temperature={
-                          weatherData.current_weather.main['feels_like']
+                          props.weatherData.current_weather.main['feels_like']
                         }
                       />
                     ),
                   },
                   {
                     label: 'Wind',
-                    value: weatherData.current_weather.wind['speed'],
-                    degree: weatherData.current_weather.wind['deg'],
+                    value: props.weatherData.current_weather.wind['speed'],
+                    degree: props.weatherData.current_weather.wind['deg'],
                   },
                   {
                     label: 'Humidity',
-                    value: weatherData.current_weather.main['humidity'] + '%',
+                    value:
+                      props.weatherData.current_weather.main['humidity'] + '%',
                   },
                   {
                     label: 'Sunrise',
                     value: timeToString(
-                      weatherData.current_weather.sys['sunrise'],
+                      props.weatherData.current_weather.sys['sunrise'],
                     ),
                   },
                   {
                     label: 'Sunset',
                     value: timeToString(
-                      weatherData.current_weather.sys['sunset'],
+                      props.weatherData.current_weather.sys['sunset'],
                     ),
                   },
                 ]}

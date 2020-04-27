@@ -46,7 +46,8 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         loading: false,
-        weather: [],
+        current_weather: {},
+        weather_forecast: [],
         error: action.payload,
       }
 
