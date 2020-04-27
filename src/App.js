@@ -1,9 +1,9 @@
-import React from 'react';
-import { Provider } from 'react-redux';
-import store from './redux/store';
-import './App.css';
-import Home from './components/pages/Home/Home';
-import Header from './components/Header/Header';
+import React from 'react'
+import { Provider } from 'react-redux'
+import store from './redux/store'
+import './App.css'
+import Home from './components/pages/Home/Home'
+import Header from './components/Header/Header'
 
 function App() {
   return (
@@ -11,7 +11,7 @@ function App() {
       <Header />
       <Home />
     </Provider>
-  );
+  )
 }
 
-export default App;
+export default App

@@ -1,34 +1,35 @@
-import React from 'react';
-import { connect } from 'react-redux';
-import { dateToString, timeToString } from '../DateFormatFunctions';
-import WeatherConverter from '../WeatherConverter/WeatherConverter';
-import WeatherIconMap from '../WeatherIconMap.json';
-import WeatherThumbnail from '../WeatherThumbnail/WeatherThumbnail';
-
+import React from 'react'
+import { connect } from 'react-redux'
+import WeatherThumbnail from '../WeatherThumbnail/WeatherThumbnail'
 
 function ForecastCarouselItem(props) {
-    return (
-        <div key={props.time} className="carousel__item user-select--none px-2 py-4">
-            <WeatherThumbnail
-                        parent={'forecast'}
-                        temperature={props.main['temp']}
-                        time={props.time}
-                        icon={props.weather[0].icon}
-                        description={props.weather[0].description}
-                />
-        </div>
-    )
+  return (
+    <div
+      key={props.time}
+      className="carousel__item user-select--none px-2 py-4"
+    >
+      <WeatherThumbnail
+        parent={'forecast'}
+        temperature={props.main['temp']}
+        time={props.time}
+        icon={props.weather[0].icon}
+        description={props.weather[0].description}
+      />
+    </div>
+  )
 }
 
-const mapStateToProps = state => {
-    return {
-        weatherData: state.weather
-    }
+const mapStateToProps = (state) => {
+  return {
+    weatherData: state.weather,
   }
-  
-  const mapDispatchToProps = dispatch => {
-    return {
-    }
-  }
-  
-  export default connect(mapStateToProps, mapDispatchToProps)(ForecastCarouselItem);
+}
+
+const mapDispatchToProps = (dispatch) => {
+  return {}
+}
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(ForecastCarouselItem)

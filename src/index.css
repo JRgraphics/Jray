@@ -10,4 +10,6 @@ code {
   font-family: 'Manrope', sans-serif;
 }
 
-button:focus {outline:none;}
+button:focus {
+  outline: none;
+}

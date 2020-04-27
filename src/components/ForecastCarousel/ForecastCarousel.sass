@@ -11,6 +11,11 @@
 .carousel__item
     height: 100%
     box-shadow: 0 0 5px #333
+
+/*---------------------------*/
+// FormatCarousel component's Custom Buttongroup style settings
+/*----------------*/
+
 .carousel-button-group
     top: -43px
     right: 0
@@ -25,12 +30,10 @@
         max-height: 100%
 .carousel-button-group__button:active
     transform: scale(0.75)
-.wi-fw--small
-    font-size: 2rem !important
-.main-temperature--small
-    font-size: 2rem
-.carousel-font
-    font-size: 0.8rem
+
+/*---------------------------*/
+// Style settings for ForecastCarousel's buttongroup on smaller device screen sizes
+/*----------------*/
 
 $breakpoint-tablet: 1024px
 @media (max-width: $breakpoint-tablet)
