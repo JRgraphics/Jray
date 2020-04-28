@@ -26,7 +26,18 @@ class LocationSearch extends React.Component {
       this.props.setSearchFocus(false)
       document.removeEventListener('mousedown', this.handleClick)
     }
-    console.log(e.target.classList[0])
+  }
+
+  handleOnFocus = (e) => {
+    if (this.underline_el.current) {
+      this.underline_el.current.style.width = '100%'
+    }
+    this.props.setSearchFocus(true)
+    document.addEventListener('mousedown', this.handleClick)
+  }
+
+  handleOnBlur = (e) => {
+    this.underline_el.current.style.width = '0'
   }
 
   handleOnChange = (e) => {
@@ -64,14 +75,8 @@ class LocationSearch extends React.Component {
             ref={this.search_el}
             className="location-search__searchbox pl-4"
             type="text"
-            onFocus={() => {
-              this.underline_el.current.style.width = '100%'
-              this.props.setSearchFocus(true)
-              document.addEventListener('mousedown', this.handleClick)
-            }}
-            onBlur={() => {
-              this.underline_el.current.style.width = '0'
-            }}
+            onFocus={(e) => this.handleOnFocus(e)}
+            onBlur={(e) => this.handleOnBlur(e)}
             onChange={(e) => this.handleOnChange(e)}
             placeholder="Search.."
             value={this.props.weatherData.search_term}

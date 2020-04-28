@@ -18,6 +18,11 @@ class SearchList extends React.Component {
     document.removeEventListener('mouseover', this.handleHover)
   }
 
+  handleOnClick = (value) => {
+    this.props.fetchWeather(value.name)
+    this.props.setSearchFocus(false)
+  }
+
   handleHover = (e) => {
     //Switches city selection if the given requirements are met
     if (e.target.classList[0] === 'search-list__result') {
@@ -51,9 +56,8 @@ class SearchList extends React.Component {
                     ? 'search-list__result--selected'
                     : '')
                 }
-                onClick={() => {
-                  this.props.fetchWeather(value.name)
-                  this.props.setSearchFocus(false)
+                onClick={(value) => {
+                  this.handleOnClick(value)
                 }}
               >
                 {value.name}

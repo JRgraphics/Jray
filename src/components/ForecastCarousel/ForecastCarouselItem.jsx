@@ -1,5 +1,4 @@
 import React from 'react'
-import { connect } from 'react-redux'
 import WeatherThumbnail from '../WeatherThumbnail/WeatherThumbnail'
 
 function ForecastCarouselItem(props) {
@@ -19,17 +18,4 @@ function ForecastCarouselItem(props) {
   )
 }
 
-const mapStateToProps = (state) => {
-  return {
-    weatherData: state.weather,
-  }
-}
-
-const mapDispatchToProps = (dispatch) => {
-  return {}
-}
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(ForecastCarouselItem)
+export default ForecastCarouselItem
