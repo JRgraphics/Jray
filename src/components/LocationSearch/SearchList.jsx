@@ -19,6 +19,7 @@ class SearchList extends React.Component {
   }
 
   handleOnClick = (value) => {
+    console.log(value)
     this.props.fetchWeather(value.name)
     this.props.setSearchFocus(false)
   }
@@ -56,7 +57,7 @@ class SearchList extends React.Component {
                     ? 'search-list__result--selected'
                     : '')
                 }
-                onClick={(value) => {
+                onClick={() => {
                   this.handleOnClick(value)
                 }}
               >
