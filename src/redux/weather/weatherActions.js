@@ -43,7 +43,7 @@ export const fetchWeather = (city) => {
     // Fetching the current weatherdata from the API
     axios
       .get(
-        'http://api.openweathermap.org/data/2.5/weather?q=' +
+        'https://api.openweathermap.org/data/2.5/weather?q=' +
           city +
           '&APPID=ca4681885056a937b5ff8c7900747249',
       )
@@ -52,7 +52,7 @@ export const fetchWeather = (city) => {
         const current_weather = response.data
         axios
           .get(
-            'http://api.openweathermap.org/data/2.5/forecast?q=' +
+            'https://api.openweathermap.org/data/2.5/forecast?q=' +
               city +
               '&appid=ca4681885056a937b5ff8c7900747249',
           )
