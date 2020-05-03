@@ -1,4 +1,4 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+This is a weather forecast application, which utilizes REST API data from [https://openweathermap.org/](https://openweathermap.org/). The given data presents weather related information to the user based on the searched location, offering data for the current time related weatherdata and 5 day forecast with 3 hour intervals. For the time being, features such as translations and geolocation functionalities are still under development, so you can check this project out later for future updates.
 
 ## Available Scripts
 
