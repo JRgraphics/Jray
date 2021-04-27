@@ -1,48 +1,53 @@
-import React from 'react'
-import { connect } from 'react-redux'
+import React, {useRef} from 'react'
+
+// Redux
+import {useSelector, useDispatch } from 'react-redux'
 import {
   fetchWeather,
   setSearchFocus,
   setSearchTerm,
   setSearchSelection,
 } from '../../redux'
-import './LocationSearch.sass'
-import Cities from './Cities.json'
 
+// Components
 import SearchList from './SearchList'
 
-class LocationSearch extends React.Component {
-  constructor(props) {
-    super(props)
-    this.search_el = React.createRef()
-    this.underline_el = React.createRef()
-  }
+// Constants
+import Cities from './Cities.json'
 
-  handleClick = (e) => {
+const LocationSearch  = () => {
+  const search_el = useRef(null)
+  const underline_el = useRef(null)
+
+  const dispatch = useDispatch()
+
+  const weatherData = useSelector(state => state.weather)
+
+  const handleClick = (e) => {
     if (
       e.target.classList[0] !== 'location-search__searchbox' &&
       e.target.classList[0] !== 'search-list__result'
     ) {
-      this.props.setSearchFocus(false)
-      document.removeEventListener('mousedown', this.handleClick)
+      dispatch(setSearchFocus(false))
+      document.removeEventListener('mousedown', handleClick)
     }
   }
 
-  handleOnFocus = (e) => {
-    if (this.underline_el.current) {
-      this.underline_el.current.style.width = '100%'
+  const handleOnFocus = (e) => {
+    if (underline_el.current) {
+      underline_el.current.style.width = '100%'
     }
-    this.props.setSearchFocus(true)
-    document.addEventListener('mousedown', this.handleClick)
+    dispatch(setSearchFocus(true))
+    document.addEventListener('mousedown', handleClick)
   }
 
-  handleOnBlur = (e) => {
-    this.underline_el.current.style.width = '0'
+  const handleOnBlur = (e) => {
+    underline_el.current.style.width = '0'
   }
 
-  handleOnChange = (e) => {
+  const handleOnChange = (e) => {
     //Filters the list of cities on every search input's onChange event
-    this.props.setSearchTerm(e.target.value)
+    dispatch(setSearchTerm(e.target.value))
     if (e.target.value.length > 2) {
       const selection = Cities.find(
         (city) =>
@@ -52,63 +57,46 @@ class LocationSearch extends React.Component {
             .startsWith(e.target.value.toLowerCase().charAt(0)),
       )
       if (selection) {
-        this.props.setSearchSelection(selection.name)
+        dispatch(setSearchSelection(selection.name))
       }
     }
   }
 
-  handleKeyUp = (e) => {
+  const handleKeyUp = (e) => {
     //If enter is pressed while focus is on the search input,
     //weatherdata will be fetched based on the current selection
     if (e.keyCode === 13) {
-      this.props.fetchWeather(this.props.weatherData.search_selection)
+      dispatch(fetchWeather(weatherData?.search_selection))
       e.target.blur()
-      this.props.setSearchFocus(false)
+      dispatch(setSearchFocus(false))
     }
   }
 
-  render() {
     return (
       <div className="location-search col-12 col-sm-10 col-md-4 p-0 my-3 mx-auto text-center">
         <div>
           <input
-            ref={this.search_el}
+            ref={search_el}
             className="location-search__searchbox pl-4"
             type="text"
-            onFocus={(e) => this.handleOnFocus(e)}
-            onBlur={(e) => this.handleOnBlur(e)}
-            onChange={(e) => this.handleOnChange(e)}
+            onFocus={(e) => handleOnFocus(e)}
+            onBlur={(e) => handleOnBlur(e)}
+            onChange={(e) => handleOnChange(e)}
             placeholder="Search.."
-            value={this.props.weatherData.search_term}
-            onKeyUp={(e) => this.handleKeyUp(e)}
+            value={weatherData?.search_term}
+            onKeyUp={(e) => handleKeyUp(e)}
           />
           <div
-            ref={this.underline_el}
+            ref={underline_el}
             className="searchbox__underline"
             style={{ width: '0' }}
           ></div>
         </div>
-        {this.props.weatherData &&
-          this.props.weatherData.search_focus &&
-          this.props.weatherData.search_term.length > 2 && <SearchList />}
+        {weatherData &&
+          weatherData?.search_focus &&
+          weatherData?.search_term?.length > 2 && <SearchList />}
       </div>
     )
-  }
 }
 
-const mapStateToProps = (state) => {
-  return {
-    weatherData: state.weather,
-  }
-}
-
-const mapDispatchToProps = (dispatch) => {
-  return {
-    fetchWeather: (city) => dispatch(fetchWeather(city)),
-    setSearchFocus: (status) => dispatch(setSearchFocus(status)),
-    setSearchTerm: (value) => dispatch(setSearchTerm(value)),
-    setSearchSelection: (value) => dispatch(setSearchSelection(value)),
-  }
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(LocationSearch)
+export default LocationSearch

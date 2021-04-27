@@ -1,10 +1,12 @@
 import React from 'react'
-import './Header.sass'
-import WeatherToggle from '../WeatherToggle/WeatherToggle'
 
+// Assets
 import Jray_logo from '../../assets/images/Jray_logo.png'
 
-function Header() {
+// Components
+import WeatherToggle from '../WeatherToggle/WeatherToggle'
+
+const Header = () => {
   return (
     <header className="header justify-content-between px-2">
       <img className="header__logo" src={Jray_logo} alt={'logo'} />

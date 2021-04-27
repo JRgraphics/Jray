@@ -1,16 +1,19 @@
 import React from 'react'
-import { connect } from 'react-redux'
-import { changeTemperature } from '../../redux'
-import './WeatherToggle.sass'
 
-function WeatherToggle(props) {
+// Redux
+import { useSelector, useDispatch } from 'react-redux'
+import { changeTemperature } from '../../redux'
+
+const WeatherToggle = () => {
+  const dispatch = useDispatch()
+  const weatherData = useSelector(state => state.weather)
   return (
     <div className="weather-toggle">
       <button
-        onClick={() => props.changeTemperature('C')}
+        onClick={() => dispatch(changeTemperature('C'))}
         className={
           'btn celcius ' +
-          (props.weatherData.temp_type === 'C'
+          (weatherData?.temp_type === 'C'
             ? 'btn-light'
             : 'btn-outline-light')
         }
@@ -18,10 +21,10 @@ function WeatherToggle(props) {
         °C
       </button>
       <button
-        onClick={() => props.changeTemperature('F')}
+        onClick={() => dispatch(changeTemperature('F'))}
         className={
           'btn fahrenheit ' +
-          (props.weatherData.temp_type === 'F'
+          (weatherData?.temp_type === 'F'
             ? 'btn-light'
             : 'btn-outline-light')
         }
@@ -32,16 +35,4 @@ function WeatherToggle(props) {
   )
 }
 
-const mapStateToProps = (state) => {
-  return {
-    weatherData: state.weather,
-  }
-}
-
-const mapDispatchToProps = (dispatch) => {
-  return {
-    changeTemperature: (temp) => dispatch(changeTemperature(temp)),
-  }
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(WeatherToggle)
+export default WeatherToggle

@@ -1,30 +1,38 @@
 import React from 'react'
-import { connect } from 'react-redux'
-import './CurrentForecast.sass'
+
+// Components
 import WeatherConverter from '../WeatherConverter/WeatherConverter'
-import { timeToString } from '../DateFormatFunctions'
 import WeatherInfoTable from './WeatherInfoTable'
 import WeatherThumbnail from '../WeatherThumbnail/WeatherThumbnail'
 
-function CurrentForecast(props) {
-  return props.weatherData.loading ? (
-    <h2 className="lds-dual-ring centered"></h2>
-  ) : props.weatherData.error ? (
-    <h2>{props.weatherData.error}</h2>
+// Helpers
+import { timeToString } from '../DateFormatFunctions'
+
+// Redux
+import { useSelector } from 'react-redux'
+
+const CurrentForecast = () => {
+  const weatherData = useSelector((state) => state.weather)
+  const currentWeather = useSelector((state) => state.weather.current_weather)
+
+  return weatherData?.loading ? (
+    <h2 className="lds-dual-ring centered"> </h2>
+  ) : weatherData?.error ? (
+    <h2>{weatherData?.error}</h2>
   ) : (
     <div className="current-forecast">
-      {props.weatherData &&
-        props.weatherData.current_weather &&
-        props.weatherData.current_weather.main && (
+      {weatherData &&
+        currentWeather &&
+        currentWeather?.main && (
           <div className="row col-12 mx-auto px-0 text-center">
             <div className="col-6 text-right">
               <WeatherThumbnail
                 parent={'current'}
-                temperature={props.weatherData.current_weather.main['temp']}
-                time={props.weatherData.current_weather.dt}
-                icon={props.weatherData.current_weather.weather[0].icon}
+                temperature={currentWeather?.main['temp']}
+                time={currentWeather?.dt}
+                icon={currentWeather?.weather[0].icon}
                 description={
-                  props.weatherData.current_weather.weather[0].description
+                  currentWeather?.weather[0]?.description
                 }
               />
             </div>
@@ -36,31 +44,30 @@ function CurrentForecast(props) {
                     value: (
                       <WeatherConverter
                         temperature={
-                          props.weatherData.current_weather.main['feels_like']
+                          currentWeather?.main['feels_like']
                         }
                       />
                     ),
                   },
                   {
                     label: 'Wind',
-                    value: props.weatherData.current_weather.wind['speed'],
-                    degree: props.weatherData.current_weather.wind['deg'],
+                    value: currentWeather?.wind['speed'],
+                    degree: currentWeather?.wind['deg'],
                   },
                   {
                     label: 'Humidity',
-                    value:
-                      props.weatherData.current_weather.main['humidity'] + '%',
+                    value: currentWeather?.main['humidity'] + '%',
                   },
                   {
                     label: 'Sunrise',
                     value: timeToString(
-                      props.weatherData.current_weather.sys['sunrise'],
+                      currentWeather?.sys['sunrise'],
                     ),
                   },
                   {
                     label: 'Sunset',
                     value: timeToString(
-                      props.weatherData.current_weather.sys['sunset'],
+                      currentWeather?.sys['sunset'],
                     ),
                   },
                 ]}
@@ -72,14 +79,4 @@ function CurrentForecast(props) {
   )
 }
 
-const mapStateToProps = (state) => {
-  return {
-    weatherData: state.weather,
-  }
-}
-
-const mapDispatchToProps = (dispatch) => {
-  return {}
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(CurrentForecast)
+export default CurrentForecast

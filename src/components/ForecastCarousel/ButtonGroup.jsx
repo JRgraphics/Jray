@@ -1,30 +1,33 @@
 import React from 'react'
 
+// Assets
 import arrow_left from '../../assets/images/arrow_left.png'
 import arrow_right from '../../assets/images/arrow_right.png'
 
+// Components
+import Button from '../Button'
+
 // Custom Navigational buttons for ForecastCarousel
-function ButtonGroup({ next, previous, goToSlide, ...rest }) {
+const ButtonGroup = ({ next, previous, goToSlide, ...rest }) => {
   const {
     carouselState: { currentSlide },
   } = rest
   return (
     <div className="carousel-button-group" style={{ position: 'absolute' }}>
-      <button
-        className={
+      <Button
+        buttonClassName={
           'carousel-button-group__button p-2 ' +
-          (currentSlide === 0 ? 'disable opacity--zero' : '')
+          (currentSlide === 0 ? 'button__disabled' : '')
         }
+        buttonContent={<img src={arrow_left} alt={'arrow'} />}
         onClick={() => previous()}
-      >
-        <img src={arrow_left} alt={'arrow'} />
-      </button>
-      <button
-        className="carousel-button-group__button p-2  "
+        disabled={currentSlide === 0}
+      />
+      <Button
+        buttonClassName={'carousel-button-group__button p-2 '}
+        buttonContent={<img src={arrow_right} alt={'arrow'} />}
         onClick={() => next()}
-      >
-        <img src={arrow_right} alt={'arrow'} />
-      </button>
+      />
     </div>
   )
 }

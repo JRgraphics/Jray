@@ -1,12 +1,18 @@
 import React, { useEffect } from 'react'
-import { connect } from 'react-redux'
-import Carousel from 'react-multi-carousel'
-import 'react-multi-carousel/lib/styles.css'
-import './ForecastCarousel.sass'
-import ForecastCarouselItem from './ForecastCarouselItem'
-import ButtonGroup from './ButtonGroup'
 
-function ForecastCarousel({ weatherData }) {
+// Components
+import ButtonGroup from './ButtonGroup'
+import Carousel from 'react-multi-carousel'
+import ForecastCarouselItem from './ForecastCarouselItem'
+
+// Redux
+import { useSelector } from 'react-redux'
+
+// Styles
+import 'react-multi-carousel/lib/styles.css'
+
+const ForecastCarousel = () => {
+  const weatherData = useSelector((state) => state.weather)
   const responsive = {
     desktop: {
       breakpoint: { max: 3000, min: 1024 },
@@ -24,15 +30,15 @@ function ForecastCarousel({ weatherData }) {
       slidesToSlide: 1, // optional, default to 1.
     },
   }
-  return weatherData.loading ? (
+  return weatherData?.loading ? (
     <h2 className="lds-dual-ring centered"></h2>
-  ) : weatherData.error ? (
-    <h2>{weatherData.error}</h2>
+  ) : weatherData?.error ? (
+    <h2>{weatherData?.error}</h2>
   ) : (
     <div className="forecast-carousel">
       {weatherData &&
-        weatherData.weather_forecast &&
-        weatherData.weather_forecast.list && (
+        weatherData?.weather_forecast &&
+        weatherData?.weather_forecast.list && (
           <Carousel
             // Settings for the ForecastCarousel
             className="carousel"
@@ -53,11 +59,12 @@ function ForecastCarousel({ weatherData }) {
             removeArrowOnDeviceType={['tablet', 'mobile']} // Arrows are only presented in UI on desktop
             itemClass="carousel-item-padding-40-px"
           >
-            {weatherData.weather_forecast.list.map((item) => (
+            {weatherData?.weather_forecast.list.map((item, index) => (
               <ForecastCarouselItem
-                time={item.dt}
-                main={item.main}
-                weather={item.weather}
+                key={index}
+                time={item?.dt}
+                main={item?.main}
+                weather={item?.weather}
               />
             ))}
           </Carousel>
@@ -66,14 +73,4 @@ function ForecastCarousel({ weatherData }) {
   )
 }
 
-const mapStateToProps = (state) => {
-  return {
-    weatherData: state.weather,
-  }
-}
-
-const mapDispatchToProps = (dispatch) => {
-  return {}
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(ForecastCarousel)
+export default ForecastCarousel
